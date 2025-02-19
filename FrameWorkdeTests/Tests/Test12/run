@@ -1,0 +1,1 @@
+dot -Tpng -o test12.png ../../logsDeTests/test12.dot

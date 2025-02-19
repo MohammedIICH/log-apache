@@ -1,0 +1,1 @@
+../../bin/analog -e -g test11.dot ../../logsDeTests/court.log

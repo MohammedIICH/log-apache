@@ -1,0 +1,74 @@
+# Variables
+MAINCPP = main.cpp
+MAINO = main.o
+REQUETECPP = Requete.cpp
+REQUETEH = Requete.h
+REQUETEO = Requete.o
+FILTRAGECPP = Filtrage.cpp
+FILTRAGEH = Filtrage.h
+FILTRAGEO = Filtrage.o
+CLASSEMENTCPP = Classement.cpp
+CLASSEMENTH = Classement.h
+CLASSEMENTO = Classement.o
+GRAPHECPP = Graphe.cpp
+GRAPHEH = Graphe.h
+GRAPHEO = Graphe.o
+LECTURECPP = Lecture.cpp
+LECTUREH = Lecture.h
+LECTUREO = Lecture.o
+
+OBJECTS = $(MAINO) $(REQUETEO) $(FILTRAGEO) $(CLASSEMENTO) $(GRAPHEO) $(LECTUREO)
+
+COMPIL = g++
+OPTIONS = -ansi -pedantic -Wall -std=c++11
+EXEC = ../FrameWorkdeTests/bin/analog
+COMPILATION = -c
+EDL = -o
+REMOVE = rm
+ALL = -f
+OFILES = *.o
+VALGRIND = valgrind
+OPTIONSVALGRIND = --leak-check=full
+CLEAN = clean
+CHMOD = chmod
+RECURSIVE = -R
+OPTIONSCHMOD = 777
+FICPERE = ./../
+
+# Compilation du programme principal
+$(EXEC): $(CHMOD) $(OBJECTS)
+	$(COMPIL) $(OPTIONS) $(EDL) $(EXEC) $(OBJECTS)
+
+# Ajout de l'option MAP si dÃƒÂ©finie
+ifdef MAP
+OPTIONS += -DMAP
+endif
+
+# Compilation des fichiers source
+$(MAINO): $(MAINCPP) $(FILTRAGEH) $(REQUETEH) $(CLASSEMENTH) $(GRAPHEH)
+	$(COMPIL) $(OPTIONS) $(COMPILATION) $(MAINCPP)
+
+$(FILTRAGEO): $(FILTRAGECPP) $(FILTRAGEH) $(REQUETEH)
+	$(COMPIL) $(OPTIONS) $(COMPILATION) $(FILTRAGECPP)
+
+$(REQUETEO): $(REQUETECPP) $(REQUETEH)
+	$(COMPIL) $(OPTIONS) $(COMPILATION) $(REQUETECPP)
+
+$(LECTUREO): $(LECTURECPP) $(LECTUREH) $(REQUETEH)
+	$(COMPIL) $(OPTIONS) $(COMPILATION) $(LECTURECPP)
+
+$(GRAPHEO): $(GRAPHECPP) $(GRAPHEH) $(FILTRAGEH) $(REQUETEH)
+	$(COMPIL) $(OPTIONS) $(COMPILATION) $(GRAPHECPP)
+
+$(CLASSEMENTO): $(CLASSEMENTCPP) $(CLASSEMENTH) $(REQUETEH)
+	$(COMPIL) $(OPTIONS) $(COMPILATION) $(CLASSEMENTCPP)
+
+# Nettoyage
+$(CLEAN):
+	$(REMOVE) $(ALL) $(OFILES) $(EXEC)
+
+$(VALGRIND): $(EXEC)
+	$(VALGRIND) $(OPTIONSVALGRIND) $(EXEC)
+
+$(CHMOD):
+	$(CHMOD) $(RECURSIVE) $(OPTIONSCHMOD) $(FICPERE)
